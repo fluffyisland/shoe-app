@@ -5,3 +5,39 @@
 [x-cloak] {
     display: none;
 }
+
+.btn {
+    @apply w-fit px-5 py-2.5 me-2 mb-2 rounded-lg transition-colors duration-200 text-white font-medium text-sm  focus:outline-none focus:ring-4 disabled:cursor-not-allowed disabled:opacity-70;
+}
+
+.btn-primary {
+    @apply bg-blue-700 enabled:hover:bg-blue-800 enabled:focus:ring-blue-300;
+}
+
+.btn-secondary {
+    @apply bg-violet-700 enabled:hover:bg-violet-800 enabled:focus:ring-violet-300;
+}
+
+.btn-danger {
+    @apply bg-red-700 enabled:hover:bg-red-800 enabled:focus:ring-red-300;
+}
+
+.btn-light {
+    @apply bg-white enabled:hover:bg-gray-100 enabled:focus:ring-gray-100 border text-gray-900 border-gray-200 !important;
+}
+
+.btn-success {
+    @apply bg-green-700 enabled:hover:bg-green-800 enabled:focus:ring-green-300;
+}
+
+.btn-warning {
+    @apply bg-yellow-400 enabled:hover:bg-yellow-500 enabled:focus:ring-yellow-300;
+}
+
+.label {
+    @apply block mb-2 text-sm font-medium text-gray-900;
+}
+
+.input {
+    @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5;
+}
