@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use PhpParser\Node\Stmt\For_;
 
 class UsersTableSeeder extends Seeder
 {
@@ -14,11 +15,13 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'Customer User',
-            'email' => 'customer@gmail.com',
-            'password' => Hash::make('12345678'),
-        ]);
+        for ($i = 1; $i <= 20; $i++) {
+            User::create([
+                'name' => 'Customer User ' . $i,
+                'email' => 'customer' . $i . '@gmail.com',
+                'password' => Hash::make('12345678'),
+            ]);
+        }
 
         User::create([
             'name' => 'Admin User',

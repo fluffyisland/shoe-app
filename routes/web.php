@@ -4,9 +4,12 @@ use App\Http\Controllers\Customer\WelcomeController as CustomerWelcomeController
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
+use App\Http\Controllers\Admin\ShoeController as AdminShoeController;
 
 use App\Http\Controllers\Owner\DashboardController as OwnerDashboardController;
-
+use App\Http\Controllers\UploadController;
 use App\Models\User;
 
 use Illuminate\Support\Facades\Route;
@@ -20,14 +23,6 @@ Route::get('/forge/login/{id?}', function (Request $request) {
     $user = User::find($request->id);
     auth()->loginUsingId($user->id);
 });
-
-// Route::get('/test', function () {
-//     return redirect('/')->with('flash', [
-//         'sweetTitle' => 'ขอแสดงความเสียใจ',
-//         'sweetMessage' => 'ไม่สามารถชำระเงินได้ ณ ขนาดนี้',
-//         'sweetStyle' => 'error',
-//     ]);
-// });
 
 Route::middleware([
     'auth:sanctum',
@@ -50,12 +45,17 @@ Route::middleware([
         }
     });
 
+    Route::post('/upload', [UploadController::class, 'upload'])->name('upload');
+
     Route::prefix('customer')->name('customer.')->middleware('customer')->group(function () {
         Route::get('/dashboard', [CustomerDashboardController::class, 'index'])->name('dashboard.index');
     });
 
     Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
         Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard.index');
+        Route::resource('/order', AdminOrderController::class);
+        Route::resource('/customer', AdminCustomerController::class,);
+        Route::resource('/shoe', AdminShoeController::class,);
     });
 
     Route::prefix('owner')->name('owner.')->middleware('owner')->group(function () {

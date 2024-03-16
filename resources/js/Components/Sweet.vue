@@ -18,7 +18,6 @@ watchEffect(async () => {
             icon: style.value,
             title: title.value,
             text: message.value,
-            confirmButtonText : "ปิด X"
         });
     }
 });

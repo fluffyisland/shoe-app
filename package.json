@@ -20,6 +20,7 @@
         "vue": "^3.3.13"
     },
     "dependencies": {
+        "lucide-vue-next": "^0.358.0",
         "vue-sweetalert2": "^5.0.5"
     }
 }

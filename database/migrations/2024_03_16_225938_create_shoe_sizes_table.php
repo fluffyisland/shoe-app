@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shoe_variants', function (Blueprint $table) {
+        Schema::create('shoe_sizes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('shoe_id')->constrained()->onDelete('cascade');
-            $table->enum('size', ['US 5', 'US 6', 'US 7', 'US 8', 'US 9', 'US 10', 'US 11', 'US 12', 'US 13']);
-            $table->string('color', 255);
-            $table->string('type', 255);
+            $table->foreignId('shoe_color_id')->constrained()->onDelete('cascade');
+            $table->string('size');
             $table->integer('stock');
             $table->timestamps();
         });
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('shoe_variants');
+        Schema::dropIfExists('shoe_sizes');
     }
 };
