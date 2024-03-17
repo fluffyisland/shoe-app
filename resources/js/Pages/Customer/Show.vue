@@ -6,7 +6,6 @@ import { Link, useForm } from "@inertiajs/vue3";
 import { onMounted, ref } from "vue";
 import { CircleCheck, X } from "lucide-vue-next";
 import Swal from "sweetalert2";
-
 const props = defineProps({
     shoe: Object,
 });
@@ -47,7 +46,7 @@ const increaseQuantity = () => {
     }
 };
 const decreaseQuantity = () => {
-    if (form.quantity >= 0) {
+    if (form.quantity >= 1) {
         form.quantity--;
     }
 };

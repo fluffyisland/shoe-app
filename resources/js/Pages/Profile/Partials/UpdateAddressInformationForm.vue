@@ -21,6 +21,9 @@ const selectedAddress = ref("");
 const store = () => {
     form.post(route("customer.address.store"), {
         preserveScroll: true,
+        onSuccess: () => {
+            getAddressuser();
+        },
     });
 };
 const addressUser = ref(null);
@@ -32,7 +35,7 @@ const update = () => {
         preserveScroll: true,
     });
 };
-onMounted(() => {
+const getAddressuser = () => {
     axios
         .get(route("customer.address.store"))
         .then((res) => {
@@ -42,6 +45,9 @@ onMounted(() => {
         .catch((error) => {
             console.log(error);
         });
+};
+onMounted(() => {
+    getAddressuser();
 });
 </script>
 
@@ -68,10 +74,6 @@ onMounted(() => {
         </template>
 
         <template #actions>
-            <ActionMessage :on="form.recentlySuccessful" class="me-3">
-                Saved.
-            </ActionMessage>
-
             <button
                 class="btn btn-primary"
                 :class="{ 'opacity-25': form.processing }"
@@ -89,7 +91,7 @@ onMounted(() => {
                     <button
                         @click="setAddress(address)"
                         :class="
-                            selectedAddress.id == address.id
+                            selectedAddress.id == address.id || user.current_address_id == address.id
                                 ? 'bg-blue-500 text-white border-blue-400'
                                 : 'bg-white hover:bg-gray-300 border-gray-400'
                         "
@@ -97,6 +99,7 @@ onMounted(() => {
                         class="p-3 border w-full rounded-md text-start mt-2 flex items-center justify-between"
                     >
                         {{ address.address }}
+                        {{user.current_address_id}}
                         <span v-if="user.current_address_id == address.id">
                             <CircleCheck color="white" />
                         </span>

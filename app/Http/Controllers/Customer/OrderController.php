@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Customer;
 use App\Http\Controllers\Controller;
 use App\Models\OrderShoe;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class OrderController extends Controller
 {
@@ -13,7 +14,14 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+
+        $orders = OrderShoe::where('user_id', auth()->user()->id)->with('shoe', 'shoe_color', 'shoe_size', 'user')->paginate();
+        $orderStatus = config('order_status');
+
+        return Inertia::render('Customer/Order', [
+            'orders' => $orders,
+            'orderStatus' => $orderStatus,
+        ]);
     }
 
     /**

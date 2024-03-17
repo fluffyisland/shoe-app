@@ -14,7 +14,7 @@ class WelcomeController extends Controller
      */
     public function index()
     {
-        $shoes = Shoe::with('shoeColors')->paginate(24);
+        $shoes = Shoe::with('shoeColors')->get();
 
         return Inertia::render('Customer/Welcome', [
             'shoes' => $shoes,

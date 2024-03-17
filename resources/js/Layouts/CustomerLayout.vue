@@ -75,6 +75,10 @@ const logout = () => {
                                     Profile
                                 </DropdownLink>
 
+                                <DropdownLink :href="route('customer.order.index')">
+                                    Order History
+                                </DropdownLink>
+
                                 <div class="border-t border-gray-200" />
 
                                 <form @submit.prevent="logout">
