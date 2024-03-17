@@ -1,55 +1,65 @@
 <script setup>
 import { X, CirclePlus, CircleMinus } from "lucide-vue-next";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import Swal from "sweetalert2";
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import InputError from "@/Components/InputError.vue";
-import axios from "axios";
-defineProps({
+
+const props = defineProps({
     shoeSizes: Object,
+    shoe: Object,
 });
 const loading = ref(false);
 const formData = ref(new FormData());
-const form = useForm({
-    name: "Classic Leather Sneakers",
-    description: "White leather sneakers with a classic design.",
-    price: "25",
-    size: "",
-    type: "Male",
-    variants: [
-        {
+const getVariant = (shoe_colors) => {
+    const array = [];
+
+    shoe_colors.forEach((variant) => {
+        const parentObj = {
             color: {
-                name: "Red",
-                photo_url: "uploads/65f6133a65550.jpg",
+                id: variant.id,
+                name: variant.color,
+                photo_url: variant.photo_url,
             },
-            sizes: [
-                { size: "US 5", stock: "10" },
-                { size: "US 6", stock: "10" },
-                { size: "US 7", stock: "10" },
-                { size: "US 8", stock: "10" },
-            ],
-        },
-        {
-            color: {
-                name: "Blue",
-                photo_url: "uploads/65f6133a65550.jpg",
-            },
-            sizes: [
-                { size: "US 5", stock: "5" },
-                { size: "US 6", stock: "5" },
-                { size: "US 7", stock: "5" },
-                { size: "US 8", stock: "5" },
-            ],
-        },
-    ],
-});
-const store = () => {
-    form.post(route("admin.shoe.store"), {
-        onSuccess: () => {
-            form.reset();
-        },
+            sizes: [],
+        };
+        const sizes = variant.shoe_sizes;
+
+        sizes.forEach((size) => {
+            const childObj = {
+                id: size.id,
+                size: size.size,
+                stock: size.stock,
+            };
+            parentObj.sizes.push(childObj);
+        });
+        array.push(parentObj);
     });
+    return array;
+};
+const form = useForm({
+    id: props.shoe.id,
+    name: props.shoe.name,
+    description: props.shoe.description,
+    price: props.shoe.price,
+    size: props.shoe.size,
+    type: props.shoe.type,
+    variants: getVariant(props.shoe.shoe_colors),
+});
+
+const update = () => {
+    form.put(
+        route("admin.shoe.update", {
+            id: props.shoe.id,
+        }),
+        {
+            onSuccess: () => {
+                window.location.reload();
+                form.reset();
+            },
+        }
+    );
 };
 const handlePhoto = (event, variantIndex) => {
     const file = event.target.files[0];
@@ -81,6 +91,7 @@ const uploadPhoto = (formData, variantIndex) => {
 const addVariant = () => {
     form.variants.push({
         color: {
+            id: "",
             name: "",
             photo_url: "",
         },
@@ -97,6 +108,7 @@ const addSize = (variantIndex) => {
 
     if (!sizeExists && form.size != "") {
         form.variants[variantIndex].sizes.push({
+            id: "",
             size: form.size,
             stock: "",
         });
@@ -106,12 +118,15 @@ const deleteSize = (variantIndex) => {
     const sizes = form.variants[variantIndex].sizes;
     sizes.splice(sizes.length - 1, 1);
 };
+onMounted(() => {
+    form.variants = getVariant(props.shoe.shoe_colors);
+});
 </script>
 
 <template>
     <AdminLayout title="Dashboard">
         <div class="p-6 space-y-2">
-            <form @submit.prevent="store">
+            <form @submit.prevent="update">
                 <div class="mb-3">
                     <label class="label" for="name">name</label>
                     <input

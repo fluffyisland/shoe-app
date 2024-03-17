@@ -6,12 +6,17 @@
     display: none;
 }
 
+::selection {
+    background-color: #2563eb !important;
+    color: white;
+}
+
 .btn {
     @apply w-fit px-5 py-2.5 me-2 mb-2 rounded-lg transition-colors duration-200 text-white font-medium text-sm  focus:outline-none focus:ring-4 disabled:cursor-not-allowed disabled:opacity-70;
 }
 
-.btn-sm{
-    @apply px-3 py-1.5
+.btn-sm {
+    @apply px-3 py-1.5;
 }
 .btn-primary {
     @apply bg-blue-700 enabled:hover:bg-blue-800 enabled:focus:ring-blue-300;

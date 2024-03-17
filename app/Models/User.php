@@ -27,6 +27,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'current_address_id',
     ];
 
     /**
@@ -59,6 +60,8 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
-
-    
+    public function address()
+    {
+        return $this->hasMany(UserAddress::class);
+    }
 }

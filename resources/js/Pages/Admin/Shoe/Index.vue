@@ -98,14 +98,17 @@ const deleteShoe = (id) => {
                                     </h6>
                                 </div>
                                 <div class="flex justify-start p-2">
-                                    <button
-                                        @click="openEditModal(shoe)"
+                                    <Link
+                                        :href="
+                                            route('admin.shoe.edit', {
+                                                shoe: shoe.id,
+                                            })
+                                        "
                                         class="btn btn-warning flex flex-row gap-2 items-center"
-                                        type="button"
                                     >
                                         <Settings size="20" />
                                         <span> Edit </span>
-                                    </button>
+                                    </Link>
                                     <button
                                         @click="deleteShoe(shoeColor.id)"
                                         class="btn btn-danger flex flex-row gap-2 items-center"

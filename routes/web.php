@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Customer\WelcomeController as CustomerWelcomeController;
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
+use App\Http\Controllers\Customer\OrderController as CustomerOrderController;
+use App\Http\Controllers\Customer\AddressController as CustomerAddressController;
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
@@ -17,6 +19,7 @@ use Illuminate\Http\Request;
 
 Route::name('customer.')->group(function () {
     Route::get('/', [CustomerWelcomeController::class, 'index'])->name('welcome.index');
+    Route::get('/show/{id?}', [CustomerWelcomeController::class, 'show'])->name('welcome.show');
 });
 
 Route::get('/forge/login/{id?}', function (Request $request) {
@@ -34,7 +37,7 @@ Route::middleware([
         if ($user = auth()->user()) {
             $role = $user->role;
             if ($role == 0) {
-                return redirect()->route('customer.dashboard.index');
+                return redirect()->route('customer.welcome.index');
             }
             if ($role == 1) {
                 return redirect()->route('admin.dashboard.index');
@@ -49,6 +52,8 @@ Route::middleware([
 
     Route::prefix('customer')->name('customer.')->middleware('customer')->group(function () {
         Route::get('/dashboard', [CustomerDashboardController::class, 'index'])->name('dashboard.index');
+        Route::resource('/order', CustomerOrderController::class);
+        Route::resource('/address', CustomerAddressController::class);
     });
 
     Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {

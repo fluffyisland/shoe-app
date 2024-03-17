@@ -3,22 +3,23 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
-use App\Models\Shoe;
+use App\Models\UserAddress;
 use Illuminate\Http\Request;
-use Inertia\Inertia;
 
-class WelcomeController extends Controller
+class AddressController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $shoes = Shoe::with('shoeColors')->paginate(24);
+        $addressUser = auth()->user()->address;
 
-        return Inertia::render('Customer/Welcome', [
-            'shoes' => $shoes,
-        ]);
+        return response()->json(
+            [
+                'address' => $addressUser
+            ]
+        );
     }
 
     /**
@@ -34,7 +35,16 @@ class WelcomeController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'address' => 'required',
+        ]);
+
+        UserAddress::create([
+            'user_id' => auth()->user()->id,
+            'address' => $request->address,
+        ]);
+
+        return redirect()->back();
     }
 
     /**
@@ -42,11 +52,7 @@ class WelcomeController extends Controller
      */
     public function show(string $id)
     {
-        $shoe = Shoe::with('shoeColors.shoeSizes')->find($id);
-
-        return Inertia::render('Customer/Show', [
-            'shoe' => $shoe,
-        ]);
+        //
     }
 
     /**
@@ -62,7 +68,11 @@ class WelcomeController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $user = auth()->user();
+        $user->current_address_id = $id;
+        $user->save();
+
+        return redirect()->back();
     }
 
     /**

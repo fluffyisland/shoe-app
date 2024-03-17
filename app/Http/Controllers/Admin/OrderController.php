@@ -14,7 +14,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = OrderShoe::with(['shoe', 'user'])->paginate();
+        $orders = OrderShoe::with('shoe', 'shoe_color', 'shoe_size', 'user')->paginate();
+
         $orderStatus = config('order_status');
 
         return Inertia::render('Admin/Order/Index', [

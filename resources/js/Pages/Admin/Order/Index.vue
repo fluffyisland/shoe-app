@@ -87,7 +87,7 @@ const cancleOrder = () => {
                         <tr>
                             <th scope="col" class="px-6 py-3">Order ID</th>
                             <th scope="col" class="px-6 py-3">Customer Name</th>
-                            <th scope="col" class="px-6 py-3">Shoe Name</th>
+                            <th scope="col" class="px-6 py-3">Shoe</th>
                             <th scope="col" class="px-6 py-3">Price</th>
                             <th scope="col" class="px-6 py-3">Quantity</th>
                             <th scope="col" class="px-6 py-3">Total Price</th>
@@ -108,7 +108,14 @@ const cancleOrder = () => {
                                 {{ order.id }}
                             </th>
                             <td class="px-6 py-4">{{ order.user.name }}</td>
-                            <td class="px-6 py-4">{{ order.shoe.name }}</td>
+                            <td class="px-6 py-4">
+                                <span>
+                                    {{ order.shoe.name }}
+                                </span>
+                                <span class="text-sm"> ({{ order.shoe_color.color }}) </span>
+                                <span class="text-sm"> ({{ order.shoe.type }}) </span>
+                                <span class="text-sm"> ({{ order.shoe_size.size }}) </span>
+                            </td>
                             <td class="px-6 py-4">{{ order.price }}</td>
                             <td class="px-6 py-4">{{ order.quantity }}</td>
                             <td class="px-6 py-4">

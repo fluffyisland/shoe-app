@@ -15,14 +15,18 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('shoe_id');
+            $table->unsignedBigInteger('shoe_color_id');
+            $table->unsignedBigInteger('shoe_size_id');
             $table->integer('quantity');
             $table->decimal('price', 10, 2);
             $table->string('slip_image')->nullable();
             $table->tinyInteger('status')->default(0)->comment('0: Not paid, 1: Paid, 2: Cancelled');
             $table->timestamps();
 
-            $table->foreign('shoe_id')->references('id')->on('shoes')->onDelete('cascade');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('shoe_id')->references('id')->on('shoes');
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('shoe_color_id')->references('id')->on('shoe_colors');
+            $table->foreign('shoe_size_id')->references('id')->on('shoe_sizes');
         });
     }
 
