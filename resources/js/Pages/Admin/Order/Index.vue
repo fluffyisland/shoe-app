@@ -76,76 +76,91 @@ const cancleOrder = () => {
 
 <template>
     <AdminLayout title="Dashboard">
-        <div>
-            <div class="relative overflow-x-auto shadow-md">
-                <table
-                    class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
-                >
-                    <thead
-                        class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
-                    >
-                        <tr>
-                            <th scope="col" class="px-6 py-3">Order ID</th>
-                            <th scope="col" class="px-6 py-3">Customer Name</th>
-                            <th scope="col" class="px-6 py-3">Shoe</th>
-                            <th scope="col" class="px-6 py-3">Price</th>
-                            <th scope="col" class="px-6 py-3">Quantity</th>
-                            <th scope="col" class="px-6 py-3">Total Price</th>
-                            <th scope="col" class="px-6 py-3">Status</th>
-                            <th scope="col" class="px-6 py-3">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr
-                            v-for="order in orders.data"
-                            :key="order.id"
-                            class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700"
-                        >
-                            <th
-                                scope="row"
-                                class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                            >
+        <div class="relative overflow-x-auto shadow-md">
+            <table class="w-full text-sm text-left rtl:text-right text-gray-500 ">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-50  ">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Order ID</th>
+                        <th scope="col" class="px-6 py-3">Total Price</th>
+                        <th scope="col" class="px-6 py-3">Status</th>
+                        <th scope="col" class="px-6 py-3">Slip</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template v-for="order in orders.data" :key="order.id">
+                        <tr class="odd:bg-white  even:bg-gray-50 ">
+                            <th scope="row" class="px-6 py-4">
                                 {{ order.id }}
                             </th>
-                            <td class="px-6 py-4">{{ order.user.name }}</td>
                             <td class="px-6 py-4">
-                                <span>
-                                    {{ order.shoe.name }}
-                                </span>
-                                <span class="text-sm"> ({{ order.shoe_color.color }}) </span>
-                                <span class="text-sm"> ({{ order.shoe.type }}) </span>
-                                <span class="text-sm"> ({{ order.shoe_size.size }}) </span>
+                                {{ order.total_amount }}
                             </td>
-                            <td class="px-6 py-4">{{ order.price }}</td>
-                            <td class="px-6 py-4">{{ order.quantity }}</td>
-                            <td class="px-6 py-4">
-                                {{ order.price * order.quantity }}
+                            <td :class="orderStatus[order.status].color" class="px-6 py-4">
+                                {{ orderStatus[order.status].label }}
                             </td>
                             <td class="px-6 py-4">
-                                <span :class="orderStatus[order.status].color">
-                                    {{ orderStatus[order.status].label }}
-                                </span>
-                            </td>
-
-                            <td class="px-6 py-4">
-                                <button
-                                    @click="
-                                        openSlipModal(
-                                            order.id,
-                                            order.slip_image,
-                                            order.status
-                                        )
-                                    "
-                                    type="button"
-                                    class="font-medium text-blue-600 hover:underline"
-                                >
+                                <button @click="
+                        openSlipModal(
+                            order.id,
+                            order.slip_image,
+                            order.status
+                        )
+                        " type="button" class="font-medium text-blue-600 hover:underline">
                                     Slip
                                 </button>
                             </td>
                         </tr>
-                    </tbody>
-                </table>
-            </div>
+                        <tr span="3">
+                            <div class="relative">
+                                <table class="text-sm text-left rtl:text-right text-gray-500">
+                                    <thead class="text-xs text-gray-700 uppercase bg-gray-50">
+                                        <tr>
+                                            <th scope="col" class="px-6 py-3">#</th>
+                                            <th scope="col" class="px-6 py-3">Name</th>
+                                            <th scope="col" class="px-6 py-3">Type</th>
+                                            <th scope="col" class="px-6 py-3">Color</th>
+                                            <th scope="col" class="px-6 py-3">Size</th>
+                                            <th scope="col" class="px-6 py-3">Price</th>
+                                            <th scope="col" class="px-6 py-3">Quantity</th>
+                                            <th scope="col" class="px-6 py-3">Total Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <template v-for="(order_shoe, index) in order.order_shoes" :key="order.id">
+                                            <tr class="odd:bg-white">
+                                                <th scope="row" class="px-6 py-4">
+                                                    {{ index + 1 }}
+                                                </th>
+                                                <td class="px-6 py-4">
+                                                    {{ order_shoe.shoe.name }}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    {{ order_shoe.shoe.type }}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    {{ order_shoe.shoe_color.color }}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    {{ order_shoe.shoe_size.size }}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    {{ order_shoe.shoe.price }}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    {{ order_shoe.quantity }}
+                                                </td>
+                                                <td class="px-6 py-4">
+                                                    {{ order_shoe.shoe.price * order_shoe.quantity }}
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
         </div>
         <Pagination :links="orders.links" />
     </AdminLayout>
@@ -154,11 +169,7 @@ const cancleOrder = () => {
         <template #title>
             <div class="flex flex-row justify-between gap-1">
                 <span> Slip Order Id {{ form.id }} </span>
-                <button
-                    class="btn btn-circle"
-                    @click="closeSlipModal"
-                    type="button"
-                >
+                <button class="btn btn-circle" @click="closeSlipModal" type="button">
                     <X class="text-gray-700" size="22" />
                 </button>
             </div>
@@ -166,29 +177,15 @@ const cancleOrder = () => {
 
         <template #content>
             <div class="flex flex-col gap-3">
-                <img
-                    class="max-w-[568px] mx-auto"
-                    :src="'/storage/' + form.slip_image"
-                    alt="slip image"
-                />
+                <img class="max-w-[568px] mx-auto" :src="'/storage/' + form.slip_image" alt="slip image" />
                 <div class="flex justify-end gap-1">
-                    <button
-                        :disabled="form.order_status == '2'"
-                        @click="cancleOrder"
-                        class="btn btn-danger flex flex-row gap-2 items-center"
-                        type="button"
-                    >
+                    <button :disabled="form.order_status == '2'" @click="cancleOrder"
+                        class="btn btn-danger flex flex-row gap-2 items-center" type="button">
                         <X size="20" />
                         <span> Cancle </span>
                     </button>
-                    <button
-                        @click="confirmOrder"
-                        :disabled="
-                            form.order_status == '2' || form.order_status == '1'
-                        "
-                        class="btn btn-success flex flex-row gap-2 items-center"
-                        type="button"
-                    >
+                    <button @click="confirmOrder" :disabled="form.order_status == '2' || form.order_status == '1'
+                        " class="btn btn-success flex flex-row gap-2 items-center" type="button">
                         <CircleCheck size="20" />
                         <span> Confirm </span>
                     </button>

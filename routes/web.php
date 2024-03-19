@@ -4,6 +4,7 @@ use App\Http\Controllers\Customer\WelcomeController as CustomerWelcomeController
 use App\Http\Controllers\Customer\DashboardController as CustomerDashboardController;
 use App\Http\Controllers\Customer\OrderController as CustomerOrderController;
 use App\Http\Controllers\Customer\AddressController as CustomerAddressController;
+use App\Http\Controllers\Customer\CartController as CustomerCartController;
 
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
@@ -54,6 +55,7 @@ Route::middleware([
         Route::get('/dashboard', [CustomerDashboardController::class, 'index'])->name('dashboard.index');
         Route::resource('/order', CustomerOrderController::class);
         Route::resource('/address', CustomerAddressController::class);
+        Route::resource('/cart', CustomerCartController::class);
     });
 
     Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {

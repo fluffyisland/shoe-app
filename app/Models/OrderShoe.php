@@ -10,13 +10,12 @@ class OrderShoe extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
+        'order_id',
         'shoe_id',
         'shoe_color_id',
         'shoe_size_id',
         'quantity',
         'price',
-        'slip_image',
     ];
 
     public function shoe()
@@ -37,5 +36,10 @@ class OrderShoe extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
     }
 }

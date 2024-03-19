@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\OrderShoe;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class OrderController extends Controller
@@ -15,7 +17,8 @@ class OrderController extends Controller
     public function index()
     {
 
-        $orders = OrderShoe::where('user_id', auth()->user()->id)->with('shoe', 'shoe_color', 'shoe_size', 'user')->paginate();
+        $user = auth()->user();
+        $orders = $user->orders()->with('order_shoes', 'order_shoes.shoe', 'order_shoes.shoe_color', 'order_shoes.shoe_size')->paginate(12);
         $orderStatus = config('order_status');
 
         return Inertia::render('Customer/Order', [
@@ -38,29 +41,31 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'shoe_id' => 'required|exists:shoes,id',
-            'shoe_color_id' => 'required|exists:shoe_colors,id',
-            'shoe_size_id' => 'required|exists:shoe_sizes,id',
-            'quantity' => 'required|integer|min:1',
-            'price' => 'required|numeric|min:0',
             'slip_image' => 'required',
+            'total_price' => 'required|numeric',
         ]);
 
-        OrderShoe::create([
-            'user_id' => auth()->user()->id,
-            'shoe_id' => $request->shoe_id,
-            'shoe_color_id' => $request->shoe_color_id,
-            'shoe_size_id' => $request->shoe_size_id,
-            'quantity' => $request->quantity,
-            'price' => $request->price,
+        $user = auth()->user();
+
+        $order = Order::create([
+            'user_id' => $user->id,
+            'total_amount' => $request->total_price,
             'slip_image' => $request->slip_image,
         ]);
 
-        return redirect()->back()->with('flash', [
-            'sweetTitle' => 'Confirm!',
-            'sweetMessage' => 'Your order has been store.',
-            'sweetStyle' => 'success',
-        ]);
+        foreach ($request->carts as $cart) {
+            OrderShoe::create([
+                'order_id' => $order->id,
+                'shoe_id' => $cart['shoe']['id'],
+                'shoe_color_id' => $cart['color']['id'],
+                'shoe_size_id' => $cart['size']['id'],
+                'quantity' => $cart['quantity'],
+                'price' => $cart['price'],
+            ]);
+        }
+
+
+        return redirect()->back();
     }
 
     /**

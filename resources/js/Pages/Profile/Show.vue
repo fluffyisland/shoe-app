@@ -17,17 +17,12 @@ import { Check } from "lucide-vue-next";
         <div>
             <div class="max-w-7xl mx-auto py-10 sm:px-6 lg:px-8">
                 <div>
-                    <UpdateProfileInformationForm
-                        :user="$page.props.auth.user"
-                    />
+                    <UpdateProfileInformationForm :user="$page.props.auth.user" />
 
                     <SectionBorder />
                 </div>
                 <div>
-                    <UpdateAddressInformationForm
-                        :user="$page.props.auth.user"
-                    />
-
+                    <UpdateAddressInformationForm v-if="$page.props.auth.user.role == '0'" :user="$page.props.auth.user" />
                     <SectionBorder />
                 </div>
             </div>

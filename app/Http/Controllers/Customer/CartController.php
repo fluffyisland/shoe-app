@@ -1,30 +1,19 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\Customer;
 
 use App\Http\Controllers\Controller;
-use App\Models\Order;
-use App\Models\Shoe;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
-class DashboardController extends Controller
+class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $users = User::get();
-        $orders = Order::get();
-        $shoes = Shoe::get();
-
-        return Inertia::render('Admin/Dashboard', [
-            'users' => $users,
-            'orders' => $orders,
-            'shoes' => $shoes,
-        ]);
+        return Inertia::render('Customer/Cart');
     }
 
     /**

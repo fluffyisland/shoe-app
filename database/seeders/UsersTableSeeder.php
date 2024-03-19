@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 1; $i <= 20; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
             User::create([
                 'name' => 'Customer User ' . $i,
                 'email' => 'customer' . $i . '@gmail.com',
@@ -26,12 +26,6 @@ class UsersTableSeeder extends Seeder
         User::create([
             'name' => 'Admin User',
             'email' => 'admin@gmail.com',
-            'password' => Hash::make('12345678'),
-        ]);
-
-        User::create([
-            'name' => 'Owner User',
-            'email' => 'owner@gmail.com',
             'password' => Hash::make('12345678'),
         ]);
     }

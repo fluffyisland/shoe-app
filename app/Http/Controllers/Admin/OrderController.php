@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Order;
 use App\Models\OrderShoe;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -14,8 +15,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        $orders = OrderShoe::with('shoe', 'shoe_color', 'shoe_size', 'user')->paginate();
-
+        $orders = Order::with('order_shoes', 'order_shoes.shoe', 'order_shoes.shoe_color', 'order_shoes.shoe_size')->paginate(12);
         $orderStatus = config('order_status');
 
         return Inertia::render('Admin/Order/Index', [
@@ -61,7 +61,7 @@ class OrderController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $order = OrderShoe::find($id);
+        $order = Order::find($id);
         $order->status = $request->status;
         $order->save();
 
