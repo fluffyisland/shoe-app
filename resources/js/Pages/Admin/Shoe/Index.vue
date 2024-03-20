@@ -94,7 +94,7 @@ const deleteShoe = (id) => {
                                     <h6
                                         class="text-blue-600 text-2xl font-semibold"
                                     >
-                                        {{ shoe.price }} $
+                                        ฿{{ shoe.price }}
                                     </h6>
                                 </div>
                                 <div class="flex justify-start p-2">

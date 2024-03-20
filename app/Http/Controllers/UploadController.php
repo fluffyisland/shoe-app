@@ -9,7 +9,7 @@ class UploadController extends Controller
     public function upload(Request $request)
     {
         $request->validate([
-            'photo_url' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'photo_url' => 'required',
         ]);
 
         if ($request->hasFile('photo_url')) {

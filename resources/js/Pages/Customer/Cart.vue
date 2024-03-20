@@ -11,7 +11,7 @@ const formData = ref(new FormData());
 const loading = ref(false);
 const totalPrice = ref(0);
 const form = useForm({
-    slip_image: "test.jpg",
+    slip_image: "",
     total_price: 0,
     carts: [],
 });
@@ -102,7 +102,7 @@ onMounted(() => {
             <div class="flex flex-col gap-6 col-span-8">
                 <template v-for="(cart, index) in carts" :key="cart.shoe.id">
                     <div class="flex flex-row bg-white border rounded-lg">
-                        <img class="w-[160px] h-[120px]" :src="'/storage/' + cart.color.photo_url"
+                        <img class="w-[100px] h-[120px]" :src="'/storage/' + cart.color.photo_url"
                             :alt="cart.shoe.name" />
                         <div class="flex py-2 px-5 gap-6">
                             <div>
@@ -147,7 +147,7 @@ onMounted(() => {
                                 </h5>
                                 <div class="flex flex-row gap-4">
                                     <p>
-                                        $ : {{ cart.shoe.price }}
+                                        ฿ : {{ cart.shoe.price }}
                                     </p>
                                     <p>
                                         Quantity : {{ cart.quantity }}
@@ -194,7 +194,7 @@ onMounted(() => {
                     <h3 class="text-center">Name Chacrit Poonpipit</h3>
                     <h3 class="text-center">
                         Total Price
-                        {{ totalPrice }} $
+                        ฿{{ totalPrice }}
                     </h3>
                 </div>
 

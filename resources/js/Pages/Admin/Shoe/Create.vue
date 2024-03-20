@@ -115,7 +115,7 @@ const deleteSize = (variantIndex) => {
                 <div class="mb-3">
                     <label class="label" for="price">price</label>
                     <input id="price" v-model="form.price" class="input" type="text"
-                        placeholder="Classic Leather Sneakers" />
+                        placeholder="999" />
                     <InputError class="mt-2" :message="form.errors.price" />
                 </div>
 

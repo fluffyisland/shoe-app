@@ -71,7 +71,7 @@ const filteredShoes = computed(() => {
                         :alt="shoe.name"
                     />
                     <h1 class="text-blue-600 text-4xl font-bold">
-                        {{ shoe.price }} $
+                        ฿{{ shoe.price }}
                     </h1>
                     <h2 class="text-2xl font-lg font-semibold">
                         {{ shoe.name }}

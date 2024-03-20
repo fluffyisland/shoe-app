@@ -44,7 +44,7 @@ class ShoeController extends Controller
         $request->validate(
             [
                 'name' => ['required', 'string', 'max:255'],
-                'description' => ['required', 'string', 'max:255'],
+                'description' => ['required', 'string'],
                 'price' => ['required', 'numeric'],
                 'type' => ['required', 'string', 'max:255'],
                 'variants' => ['required', 'array'],

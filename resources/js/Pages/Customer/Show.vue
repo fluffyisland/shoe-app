@@ -78,7 +78,7 @@ const addToCart = () => {
 <template>
     <CustomerLayout title="Show">
         <div class="flex flex-col w-fit">
-            <img class="w-[300px] h-[300px]" :src="'/storage/' + form.photo_url" :alt="shoe.name" />
+            <img class="w-[300px] h-[400px]" :src="'/storage/' + form.photo_url" :alt="shoe.name" />
             <div>
                 <div class="prose mb-3">
                     <h3>
@@ -88,7 +88,7 @@ const addToCart = () => {
                         {{ shoe.description }}
                     </p>
                 </div>
-                <span class="text-3xl font-bold"> {{ shoe.price }} $ </span>
+                <span class="text-3xl font-bold"> ฿{{ shoe.price }} </span>
 
                 <div class="mt-4">
                     <template v-for="(color, index) in shoe.shoe_colors" :key="color.id">
